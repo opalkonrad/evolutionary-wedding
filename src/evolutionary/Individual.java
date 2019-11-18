@@ -11,6 +11,7 @@ public class Individual {
 
     private Random rand = new Random();
 
+
     public Individual(int dim, int xMin, int xMax, int sigmaMax) {
         x = new ArrayList<>(dim);
         sigma = new ArrayList<>(dim);
@@ -28,6 +29,10 @@ public class Individual {
 
     public ArrayList<Double> getSigma() {
         return sigma;
+    }
+
+    public void setFunctionValue(double functionValue) {
+        this.functionValue = functionValue;
     }
 
 

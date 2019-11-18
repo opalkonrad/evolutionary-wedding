@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Population {
     private ArrayList<Individual> population;
+    private Evolution evolution;
 
     public Population() {
         population = new ArrayList<>();
@@ -14,14 +15,17 @@ public class Population {
         for(int i=0; i<count; i++){
             this.addToPopulation(new Individual(dim, xMin, xMax, sigmaMax));
         }
+        countObjectiveFunctions();
     }
 
     public Population(ArrayList<Individual> individuals) {
         population = new ArrayList<>(individuals);
+        countObjectiveFunctions();
     }
 
     public void addToPopulation(Individual individual) {
         population.add(individual);
+
     }
 
     public void removeFromPopulation(Individual individual) {
@@ -35,18 +39,22 @@ public class Population {
         }
     }
 
-    /**
-     * 1. Stworzenie losowej populacji liczb rzeczywistych (mi osobników) // zrobione w konstruktorze
-     * 2. Obliczenie funkcji przystosowania
-     * 3. Połączenie w pary i wyliczenie nowych funkcji przystosowania
-     * 4. Nowa populacja za pomocą koła ruletki (lambda osobników)
-     * 5. Mutacje na podstawie sigmy z rozkładem normalnym
-     * 6. Obliczenie funkcji przystosowania i wybór mi najlepszych osobników
-     * 7. Jeżeli nie warunek stopu, to powróć do punktu 3.
-     *
-     */
-    public void evolution(boolean wedding) {
+    void countObjectiveFunctions(){
+        for(Individual i: population){
+            evolution.countObjectiveFunction(i);
+        }
+    }
 
+    void performWedding(){
+        //TODO
+    }
+
+    Population getChildrenPopulation(int count){
+        //TODO
+    }
+
+    void performMutations(){
+        //TODO
     }
 
 
