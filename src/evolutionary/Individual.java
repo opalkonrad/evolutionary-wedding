@@ -3,11 +3,11 @@ package evolutionary;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Individual {
+public class Individual implements Cloneable{
     private ArrayList<Double> x;
     private ArrayList<Double> sigma;
     private double functionValue;
-    private boolean isMarred = false;
+    private boolean isMarried = false;
 
     private Random rand = new Random();
 
@@ -50,11 +50,12 @@ public class Individual {
                     sum1 += d*d*d;
                 }
                 return sum1;
+                //TODO objective functions
         }
     }
 
     public boolean isMarried() {
-        return isMarred;
+        return isMarried;
     }
 
     public void marry(Individual second) {
@@ -65,5 +66,33 @@ public class Individual {
 
     public double getFunctionValue() {
         return functionValue;
+    }
+
+    public void setX(ArrayList<Double> x) {
+        this.x = x;
+    }
+
+    public void setSigma(ArrayList<Double> sigma) {
+        this.sigma = sigma;
+    }
+
+    public Object clone() throws CloneNotSupportedException{
+        Individual individual = (Individual)super.clone();
+
+        //copy array of x
+        ArrayList<Double> xTmp = new ArrayList<>(x.size());
+        for(int i=0; i<x.size(); i++){
+            xTmp.set(i, x.get(i));
+        }
+        //copy array of sigma
+        ArrayList<Double> sigmaTmp = new ArrayList<>(sigma.size());
+        for(int i=0; i<sigma.size(); i++){
+            sigmaTmp.set(i, sigma.get(i));
+        }
+
+        individual.setX(xTmp);
+        individual.setSigma(sigmaTmp);
+
+        return individual;
     }
 }
