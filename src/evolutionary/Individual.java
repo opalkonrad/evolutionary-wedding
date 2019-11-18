@@ -95,4 +95,8 @@ public class Individual implements Cloneable{
 
         return individual;
     }
+
+    public int getDimension() {
+        return x.size();
+    }
 }
