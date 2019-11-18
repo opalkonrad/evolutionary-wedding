@@ -3,14 +3,15 @@ package evolutionary;
 public class Main {
 
     public static void main(String[] args) {
-        Population tmpPop = new Population();
+        Population population1 = new Population(3, 1, -100, 100, 10, 0);
+        population1.showPopulation();
+        try {
+            population1.performEvolution(8, true);
 
-        tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
-        tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
-        tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
-        tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
-        tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
 
-        tmpPop.showPopulation();
+        population1.showPopulation();
     }
 }

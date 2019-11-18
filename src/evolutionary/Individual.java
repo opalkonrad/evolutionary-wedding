@@ -76,19 +76,19 @@ public class Individual implements Cloneable{
         this.sigma = sigma;
     }
 
+    public void setMarried(boolean married) {
+        isMarried = married;
+    }
+
     public Object clone() throws CloneNotSupportedException{
         Individual individual = (Individual)super.clone();
 
+        individual.setMarried(false);
+
         //copy array of x
-        ArrayList<Double> xTmp = new ArrayList<>(x.size());
-        for(int i=0; i<x.size(); i++){
-            xTmp.set(i, x.get(i));
-        }
+        ArrayList<Double> xTmp = new ArrayList<>(x);
         //copy array of sigma
-        ArrayList<Double> sigmaTmp = new ArrayList<>(sigma.size());
-        for(int i=0; i<sigma.size(); i++){
-            sigmaTmp.set(i, sigma.get(i));
-        }
+        ArrayList<Double> sigmaTmp = new ArrayList<>(sigma);
 
         individual.setX(xTmp);
         individual.setSigma(sigmaTmp);

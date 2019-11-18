@@ -2,6 +2,7 @@ package evolutionary;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 public class Population {
@@ -27,8 +28,18 @@ public class Population {
         population.add(individual);
     }
 
+    public void addToPopulation(ArrayList<Individual> individuals){
+        population.addAll(individuals);
+    }
+
     public void removeFromPopulation(Individual individual) {
         population.remove(individual);
+    }
+
+    public void removeFromPopulation(int newSize){
+        for(int i=getSize()-1; i>newSize; i--){
+            population.remove(i);
+        }
     }
 
 
@@ -47,7 +58,7 @@ public class Population {
 
             Individual first = population.get(i);
 
-            while(i != getSize() && population.get(++i).isMarried()) { }
+            while(++i != getSize() && population.get(i).isMarried()) { }
 
             if(i != getSize()) {
                 first.marry(population.get(i));
@@ -64,9 +75,9 @@ public class Population {
         }
 
         //generate count random numbers from 0 to functionValueSum
-        ArrayList<Double>randoms = new ArrayList<>(count);
+        ArrayList<Double>randoms = new ArrayList<>();
         for(int i=0; i<count; ++i){
-            randoms.set(i, rand.nextDouble()*functionValueSum);
+            randoms.add(rand.nextDouble()*functionValueSum);
         }
 
         Collections.sort(randoms);
@@ -78,9 +89,15 @@ public class Population {
         int randomsIndex = 0;
         for(Individual individual: population){
             wheelPointer += individual.getFunctionValue();
+            if(randomsIndex >= count){
+                break;
+            }
             //until random will not exceed wheelPointer, individual is cloned to child population
-            while(randoms.get(randomsIndex++) <= wheelPointer){
+            while(randoms.get(randomsIndex) <= wheelPointer){
                 pop.addToPopulation((Individual)individual.clone());
+                if(++randomsIndex >= count){
+                    break;
+                }
             }
         }
 
@@ -111,10 +128,34 @@ public class Population {
         // Randomly generate lambda individuals using roulette wheel
         Population childrenPopulation = createChildrenPopulation(lambda);
 
+        // Limit population to original size
+        Population finalPopulation = limitPopulation(childrenPopulation);
+
+        return finalPopulation;
+    }
+
+    /**
+     * From combined original population and child population we choose new population by limiting it to original size
+     * (choosing individuals with best objective function).
+     * @param childrenPopulation
+     * @return
+     */
+    public Population limitPopulation(Population childrenPopulation){
         //create one references population
-        Population population = new Population();
-        //TODO
-        return population;
+        Population allPopulation = new Population(population);
+        allPopulation.addToPopulation(childrenPopulation.getPopulation());
+
+        //sort population by objective function value descending
+        allPopulation.population.sort(new Comparator<Individual>() {
+            @Override
+            public int compare(Individual o1, Individual o2) {
+                return (int) (o2.getFunctionValue() - o1.getFunctionValue());
+            }
+        });
+
+        allPopulation.removeFromPopulation(getSize());
+
+        return allPopulation;
     }
 
     public int getSize(){
