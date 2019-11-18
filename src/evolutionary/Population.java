@@ -55,7 +55,7 @@ public class Population {
         }
     }
 
-    Population createChildrenPopulation(int count) throws CloneNotSupportedException {
+    Population createChildrenPopulation(int count, double mutationProbability) throws CloneNotSupportedException {
         double functionValueSum = 0;
 
         //count sum of function values
@@ -84,13 +84,39 @@ public class Population {
             }
         }
 
-        pop.performMutations();
+        pop.performMutations(mutationProbability);
 
         return pop;
     }
 
-    void performMutations() {
-        //TODO
+    void performMutations(double mutationProbability) {
+        double tau = 1 / (Math.sqrt(2 * getDimension()));
+        double tauPrim = 1 / (Math.sqrt(2 * Math.sqrt(getDimension())));
+
+        for(Individual individual : population) {
+            // Mutate only some of the individuals in population
+            if(rand.nextDouble() > mutationProbability) {
+                continue;
+            }
+
+            ArrayList<Double> newX = new ArrayList<>();
+            ArrayList<Double> newSigma = new ArrayList<>();
+
+            double normDistr = rand.nextGaussian();
+
+            for(double sigma : individual.getSigma()) {
+                newSigma.add(sigma * Math.exp(tau * normDistr + tauPrim * rand.nextGaussian()));
+            }
+
+            int counter = 0;
+            for(double x : individual.getX()) {
+                newX.add(x + (newSigma.get(counter) * rand.nextGaussian()));
+                counter++;
+            }
+
+            individual.setX(newX);
+            individual.setSigma(newSigma);
+        }
     }
 
     /**
@@ -103,13 +129,13 @@ public class Population {
      * 7. Jeżeli nie warunek stopu, to powróć do punktu 3.
      *
      */
-    public Population performEvolution(int lambda, boolean isWedding) throws CloneNotSupportedException {
+    public Population performEvolution(int lambda, boolean isWedding, double mutationProbability) throws CloneNotSupportedException {
         if(isWedding) {
             performWedding();
         }
 
         // Randomly generate lambda individuals using roulette wheel
-        Population childrenPopulation = createChildrenPopulation(lambda);
+        Population childrenPopulation = createChildrenPopulation(lambda, mutationProbability);
 
         //create one references population
         Population population = new Population();
@@ -124,6 +150,10 @@ public class Population {
 
     public ArrayList<Individual> getPopulation() {
         return population;
+    }
+
+    public int getDimension() {
+        return population.get(0).getDimension();
     }
 
 }

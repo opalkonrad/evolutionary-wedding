@@ -8,9 +8,13 @@ public class Main {
         tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
         tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
         tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
-        tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
-        tmpPop.addToPopulation(new Individual(5, -100, 100, 10, 0));
 
         tmpPop.showPopulation();
+
+        tmpPop.performMutations(1);
+        System.out.println("\n");
+
+        tmpPop.showPopulation();
+
     }
 }
