@@ -37,16 +37,22 @@ public class Population {
     }
 
     public void removeFromPopulation(int newSize){
-        for(int i=getSize()-1; i>newSize; i--){
+        for(int i=getSize()-1; i>=newSize; i--){
             population.remove(i);
         }
     }
 
 
-    public void showPopulation() {
+    public void showPopulation(boolean detail) {
+        double sum = 0;
         for(Individual i : population) {
-            System.out.println("x     " + i.getX() + "\nsigma " + i.getSigma() + "\n");
+            if(detail) {
+                System.out.println("x     " + i.getX() + "\nsigma " + i.getSigma() + "\n" + i.getFunctionValue() + "\n");
+            }
+            sum += i.getX().get(0);
         }
+        System.out.println("srednia     " + sum/getSize() + "\n");
+
     }
 
     void performWedding() {
@@ -133,6 +139,7 @@ public class Population {
 
             individual.setX(newX);
             individual.setSigma(newSigma);
+            individual.updateObjectiveFunction();
         }
     }
 
@@ -146,13 +153,18 @@ public class Population {
      * 7. Jeżeli nie warunek stopu, to powróć do punktu 3.
      *
      */
-    public Population performEvolution(int lambda, boolean isWedding, double mutationProbability) throws CloneNotSupportedException {
+    public Population performEvolution(int lambda, boolean isWedding, double mutationProbability) {
         if(isWedding) {
             performWedding();
         }
 
-        // Randomly generate lambda individuals using roulette wheel
-        Population childrenPopulation = createChildrenPopulation(lambda, mutationProbability);
+        Population childrenPopulation = null;
+        try {
+            // Randomly generate lambda individuals using roulette wheel
+            childrenPopulation = createChildrenPopulation(lambda, mutationProbability);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
 
         // Limit population to original size
         Population finalPopulation = limitPopulation(childrenPopulation);
@@ -169,13 +181,19 @@ public class Population {
     public Population limitPopulation(Population childrenPopulation){
         //create one references population
         Population allPopulation = new Population(population);
-        allPopulation.addToPopulation(childrenPopulation.getPopulation());
+        allPopulation.addToPopulation( childrenPopulation.getPopulation() );
 
         //sort population by objective function value descending
         allPopulation.population.sort(new Comparator<Individual>() {
             @Override
             public int compare(Individual o1, Individual o2) {
-                return (int) (o2.getFunctionValue() - o1.getFunctionValue());
+                if(o2.getFunctionValue() > o1.getFunctionValue()){
+                    return -1;
+                }
+                else if(o2.getFunctionValue() == o1.getFunctionValue()){
+                    return 0;
+                }
+                else return 1;
             }
         });
 

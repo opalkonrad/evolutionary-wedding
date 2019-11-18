@@ -8,6 +8,7 @@ public class Individual implements Cloneable{
     private ArrayList<Double> sigma;
     private double functionValue;
     private boolean isMarried = false;
+    private int funcNum;
 
     private Random rand = new Random();
 
@@ -15,12 +16,17 @@ public class Individual implements Cloneable{
     public Individual(int dim, int xMin, int xMax, int sigmaMax, int funcNum) {
         x = new ArrayList<>(dim);
         sigma = new ArrayList<>(dim);
+        this.funcNum = funcNum;
 
         for(int i = 0; i < dim; i++) {
             x.add(xMin + (xMax - xMin) * rand.nextDouble());
             sigma.add(sigmaMax * rand.nextDouble());
         }
 
+        updateObjectiveFunction();
+    }
+
+    public void updateObjectiveFunction(){
         functionValue = countObjectiveFunction(funcNum);
     }
 
@@ -61,6 +67,8 @@ public class Individual implements Cloneable{
     public void marry(Individual second) {
         double val = (this.functionValue + second.getFunctionValue()) / 2;
         this.functionValue = val;
+        isMarried = true;
+        second.setMarried(true);
         second.setFunctionValue(val);
     }
 
@@ -92,6 +100,8 @@ public class Individual implements Cloneable{
 
         individual.setX(xTmp);
         individual.setSigma(sigmaTmp);
+
+        individual.updateObjectiveFunction();
 
         return individual;
     }
