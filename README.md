@@ -9,7 +9,7 @@ Róbmy pull requesty! 😜
 
 ## Algorytm
 lambda > mi
-1. Stwrozenie losowej populacji liczb rzeczywistych (mi osobników)
+1. Stworzenie losowej populacji liczb rzeczywistych (mi osobników)
 2. Obliczenie funkcji przystosowania
 3. Połączenie w pary i wyliczenie nowych funkcji przystosowania
 4. Nowa populacja za pomocą koła ruletki (lambda osobników)
