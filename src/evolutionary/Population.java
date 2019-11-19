@@ -47,7 +47,7 @@ public class Population {
         double sum = 0;
         for(Individual i : population) {
             if(detail) {
-                System.out.println("x     " + i.getX() + "\nsigma " + i.getSigma() + "\n" + i.getFunctionValue() + "\n");
+                System.out.println("x     " + i.getX() + "\nsigma " + i.getSigma() + "\n" + i.getObjFuncVal() + "\n");
             }
             sum += i.getX().get(0);
         }
@@ -77,7 +77,7 @@ public class Population {
 
         //count sum of function values
         for(Individual individual: population){
-            functionValueSum += individual.getFunctionValue();
+            functionValueSum += individual.getObjFuncVal();
         }
 
         //generate count random numbers from 0 to functionValueSum
@@ -94,7 +94,7 @@ public class Population {
         double wheelPointer = 0;
         int randomsIndex = 0;
         for(Individual individual: population){
-            wheelPointer += individual.getFunctionValue();
+            wheelPointer += individual.getObjFuncVal();
             if(randomsIndex >= count){
                 break;
             }
@@ -139,7 +139,7 @@ public class Population {
 
             individual.setX(newX);
             individual.setSigma(newSigma);
-            individual.updateObjectiveFunction();
+            individual.updateObjFuncVal();
         }
     }
 
@@ -187,10 +187,10 @@ public class Population {
         allPopulation.population.sort(new Comparator<Individual>() {
             @Override
             public int compare(Individual o1, Individual o2) {
-                if(o2.getFunctionValue() > o1.getFunctionValue()){
+                if(o2.getObjFuncVal() > o1.getObjFuncVal()){
                     return -1;
                 }
-                else if(o2.getFunctionValue() == o1.getFunctionValue()){
+                else if(o2.getObjFuncVal() == o1.getObjFuncVal()){
                     return 0;
                 }
                 else return 1;

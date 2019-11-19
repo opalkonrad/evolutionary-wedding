@@ -25,11 +25,10 @@ public class Main {
 //        population1.limitPopulation(ch).showPopulation(true);
 
 
-
         Population population1 = new Population(5, 1, -10, 100, 10, 0);
         population1.showPopulation(true);
         Population population = population1;
-        for(int i=0; i<100; i++){
+        for (int i = 0; i < 100; i++) {
             population = population.performEvolution(15, true, 1);
         }
 
