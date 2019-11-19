@@ -5,7 +5,6 @@ import java.util.Random;
 
 import static java.lang.Math.*;
 
-public class Individual implements Cloneable{
 /**
  * Represents an individual.
  * For more information about meanings of variables see "Podstawy sztucznej inteligencji" by Pawel Wawrzynski.
