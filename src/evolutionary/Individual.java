@@ -3,6 +3,9 @@ package evolutionary;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static java.lang.Math.*;
+
+public class Individual implements Cloneable{
 /**
  * Represents an individual.
  * For more information about meanings of variables see "Podstawy sztucznej inteligencji" by Pawel Wawrzynski.
@@ -131,6 +134,21 @@ public class Individual implements Cloneable {
                 }
 
                 return sum0;
+            case 6:
+                double sum6_1 = 0;
+                double a = 0.5;
+                double b = 3;
+                double kmax = 20;
+                for(double x_i: x){
+                    for(int k=0; k<=kmax; ++k){
+                        sum6_1 += pow(a, k)*cos(2*PI*pow(b, k)*(x_i+0.5));
+                    }
+                }
+                double sum6_2 = 0;
+                for(int k=0; k<=kmax; k++){
+                    sum6_2 += pow(a, k)*cos(2*PI*pow(b, k)*0.5);
+                }
+                return sum6_1 - getDimension() * sum6_2;
 
             default:
                 double sum1 = 0;
