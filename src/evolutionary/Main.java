@@ -23,16 +23,11 @@ public class Main {
 //        ch.showPopulation(true);
 //
 //        population1.limitPopulation(ch).showPopulation(true);
+        Evolution evolution = new Evolution(1000, 1500, 10, 23, 100, true, 0.6);
+        //Evolution evolution = new Evolution(3, 5, 1, 23, 4, true, 1);
+        evolution.showPopulation(true);
+        evolution.performEvolution();
+        evolution.showPopulation(true);
 
-
-
-        Population population1 = new Population(10000, 5, -100, 100, 10, 6);
-        population1.showPopulation(false);
-        Population population = population1;
-        for(int i=0; i<1000; i++){
-            population = population.performEvolution(15000, true, 0.6);
-        }
-
-        population1.showPopulation(true);
     }
 }

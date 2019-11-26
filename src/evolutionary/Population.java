@@ -8,19 +8,23 @@ import java.util.Random;
 public class Population {
     private ArrayList<Individual> population;
     private Random rand = new Random();
+    private Evolution evolution;
 
-    public Population() {
+    public Population(Evolution evolution) {
+        this.evolution = evolution;
         population = new ArrayList<>();
     }
 
-    public Population(int count, int dim, int xMin, int xMax, int sigmaMax, int funcNum){
+    public Population(Evolution evolution, int count, int dim, int xMin, int xMax, int sigmaMax, int funcNum){
+        this.evolution = evolution;
         population = new ArrayList<>();
         for(int i=0; i<count; i++){
-            this.addToPopulation(new Individual(dim, xMin, xMax, sigmaMax, funcNum));
+            this.addToPopulation(new Individual(evolution, dim, xMin, xMax, sigmaMax, funcNum));
         }
     }
 
-    public Population(ArrayList<Individual> individuals) {
+    public Population(Evolution evolution, ArrayList<Individual> individuals) {
+        this.evolution = evolution;
         population = new ArrayList<>(individuals);
     }
 
@@ -88,7 +92,7 @@ public class Population {
 
         Collections.sort(randoms);
 
-        Population pop = new Population();
+        Population pop = new Population(evolution);
 
         //generate new population using roulette wheel
         double wheelPointer = 0;
@@ -180,7 +184,7 @@ public class Population {
      */
     public Population limitPopulation(Population childrenPopulation){
         //create one references population
-        Population allPopulation = new Population(population);
+        Population allPopulation = new Population(evolution, population);
         allPopulation.addToPopulation( childrenPopulation.getPopulation() );
 
         //sort population by objective function value descending

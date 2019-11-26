@@ -1,5 +1,6 @@
 package evolutionary;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,6 +17,7 @@ public class Individual implements Cloneable {
     private double objFuncVal;
     private boolean isMarried = false;
     private Random rand = new Random();
+    private Evolution evolution;
 
 
     /*----- Constructors -----*/
@@ -27,7 +29,8 @@ public class Individual implements Cloneable {
      * @param sigmaMax Maximum value of sigma.
      * @param funcNum  Stores number which indicates appropriate objective function.
      */
-    public Individual(int dim, int xMin, int xMax, int sigmaMax, int funcNum) {
+    public Individual(Evolution evolution, int dim, int xMin, int xMax, int sigmaMax, int funcNum) {
+        this.evolution = evolution;
         x = new ArrayList<>(dim);
         sigma = new ArrayList<>(dim);
         this.funcNum = funcNum;
@@ -115,7 +118,7 @@ public class Individual implements Cloneable {
      * Updates objective function value.
      */
     public void updateObjFuncVal() {
-        setObjFuncVal(countObjFuncVal());
+        setObjFuncVal(countObjFuncVal(funcNum));
     }
 
     /**
@@ -123,7 +126,7 @@ public class Individual implements Cloneable {
      *
      * @return New objective function value.
      */
-    public double countObjFuncVal() {
+    public double countObjFuncVal(int funcNum) {
         switch (funcNum) {
             case 0:
                 double sum0 = 0;
@@ -133,6 +136,31 @@ public class Individual implements Cloneable {
                 }
 
                 return sum0;
+            case 1:
+                double sum1 = 0;
+
+                for(double i=0; i<getDimension(); ++i){
+                    sum1 += pow(1000000, i/(getDimension()-1))*pow(x.get((int)i),2);
+                }
+                return sum1;
+            case 2:
+                double function2 = 0;
+                for(int i=1; i<getDimension(); ++i){
+                    function2 += pow(x.get(i), 2);
+                }
+                return 1000000*function2 + x.get(0)*x.get(0);
+            case 3:
+                double function3 = 0;
+                for(int i=1; i<getDimension(); ++i){
+                    function3 += pow(x.get(i), 2);
+                }
+                return function3 + 1000000*x.get(0)*x.get(0);
+            case 4:
+                double function4 = 0;
+                for(int i=0; i<getDimension()-1; i++){
+                    function4 += 100*pow(x.get(i)*x.get(i) - x.get(i+1),2) + pow(x.get(i)-1, 2);
+                }
+                return function4;
             case 6:
                 double sum6_1 = 0;
                 double a = 0.5;
@@ -148,19 +176,35 @@ public class Individual implements Cloneable {
                     sum6_2 += pow(a, k)*cos(2*PI*pow(b, k)*0.5);
                 }
                 return sum6_1 - getDimension() * sum6_2;
-
-            default:
-                double sum1 = 0;
-
-                for (Double d : x) {
-                    sum1 += d * d * d;
+            case 23:
+                double[] w = new double[evolution.getN()];
+                double sumW23 = 0;
+                for(int i=0; i<evolution.getN(); ++i){
+                    double sum23_1 = 0;
+                    for(int j=0; j<getDimension(); ++j){
+                        sum23_1 = pow(x.get(j) - evolution.getOptimum(i, j), 2);
+                    }
+                    w[i] = exp(-sum23_1/(2*getDimension()*evolution.getSigma()[i]))/sqrt(sum23_1);
+                    sumW23 += w[i];
+                }
+                for(int i=0; i<evolution.getN(); ++i){
+                    w[i] = w[i]/sumW23;
                 }
 
-                return sum1;
+                double function = 0;
+                for(int i=0; i<evolution.getN(); ++i){
+                    function += w[i]*(evolution.getLambda()[i]*countObjFuncVal(evolution.getG()[i])+evolution.getBias()[i]);
+                }
 
+                return function;
             // TODO objective functions
+
+            default:
+                return 0;
         }
     }
+
+
 
     /**
      * It sets objective function values of two individuals equal to q(i) = q(j) = mean(q(i), q(j)).
