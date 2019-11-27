@@ -16,6 +16,54 @@ public class Evolution {
     private int[] g;
     private double[] bias;
 
+    private Random rand = new Random();
+
+
+    /*----- Constructors -----*/
+
+    /**
+     * @param mi
+     * @param childrenCount
+     * @param dim
+     * @param funcNum
+     * @param repeatNum
+     * @param isWedding
+     * @param mutationProbability
+     */
+    public Evolution(int mi, int childrenCount, int dim, int funcNum, int repeatNum, boolean isWedding, double mutationProbability) {
+        population = new Population(this, mi, dim, -100, 100, 10, funcNum);
+        this.dim = dim;
+        this.childrenCount = childrenCount;
+        this.isWedding = isWedding;
+        this.mutationProbability = mutationProbability;
+        this.repeatNum = repeatNum;
+
+        switch (funcNum) {
+            case 23:
+                N = 5;
+                sigma = new double[]{10, 20, 30, 40, 50};
+                lambda = new double[]{1, 1e-6, 1e-26, 1e-6, 1e-6};
+                g = new int[]{4, 1, 2, 3, 1};
+                bias = new double[]{0, 100, 200, 300, 400};
+                break;
+
+            case 27:
+                // TODO function 27
+        }
+
+        optimum = new double[N][dim];
+
+        for (int i = 0; i < N; ++i) {
+            for (int j = 0; j < dim; ++j) {
+                // Random distribution from -80 to 80
+                optimum[i][j] = rand.nextDouble() * 160 - 80;
+            }
+        }
+    }
+
+
+    /*----- Getters & setters -----*/
+
     public double[] getLambda() {
         return lambda;
     }
@@ -23,8 +71,6 @@ public class Evolution {
     public double[] getSigma() {
         return sigma;
     }
-
-    private Random rand = new Random();
 
     public int getN() {
         return N;
@@ -38,55 +84,49 @@ public class Evolution {
         return bias;
     }
 
-    public Evolution(int mi, int childrenCount, int dim, int funcNum, int repeatNum, boolean isWedding, double mutationProbability){
-        population = new Population(this, mi, dim, -100, 100, 10, funcNum);
-        this.dim = dim;
-        this.childrenCount = childrenCount;
-        this.isWedding = isWedding;
-        this.mutationProbability = mutationProbability;
-        this.repeatNum = repeatNum;
-
-        switch(funcNum){
-            case 23:
-                N = 5;
-                sigma = new double[]{10, 20, 30, 40, 50};
-                lambda = new double[]{1, 1e-6, 1e-26, 1e-6, 1e-6};
-                g = new int[]{4, 1, 2, 3, 1};
-                bias = new double[]{0, 100, 200, 300, 400};
-                break;
+    /**
+     *
+     * @param i
+     * @param j
+     * @return
+     */
+    public double getOptimum(int i, int j) {
+        if (i >= N || j >= dim) {
+            throw new ArrayIndexOutOfBoundsException();
         }
-
-        optimum = new double[N][dim];
-        for(int i=0; i<N; ++i){
-            for(int j=0; j<dim; ++j) {
-                optimum[i][j] = rand.nextDouble()*160-80; // random distribution from -80 to 80
-            }
-        }
+        return optimum[i][j];
     }
 
-    public void performEvolution(){
-        for(int i=0; i < repeatNum; i++){
+
+    /*----- Methods -----*/
+
+    /**
+     *
+     */
+    public void performEvolution() {
+        for (int i = 0; i < repeatNum; ++i) {
             population = population.performEvolution(childrenCount, isWedding, mutationProbability);
         }
     }
 
-    public void showPopulation(boolean all){
+    /**
+     *
+     * @param all
+     */
+    public void showPopulation(boolean all) {
         System.out.println("OPTIMA:");
-        for(int i=0; i<N; ++i){
-            System.out.print(i+" [");
-            for(int j=0; j<dim; ++j) {
-                System.out.print(getOptimum(i, j)+"    ");
+
+        for (int i = 0; i < N; ++i) {
+            System.out.print(i + " [");
+
+            for (int j = 0; j < dim; ++j) {
+                System.out.print(getOptimum(i, j) + "    ");
             }
+
             System.out.println("");
         }
 
         population.showPopulation(all);
     }
 
-    public double getOptimum(int i, int j) {
-        if(i>=N || j>=dim) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        return optimum[i][j];
-    }
 }

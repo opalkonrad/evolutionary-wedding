@@ -10,84 +10,167 @@ public class Population {
     private Random rand = new Random();
     private Evolution evolution;
 
+
+    /*----- Constructors -----*/
+
+    /**
+     *
+     * @param evolution
+     */
     public Population(Evolution evolution) {
         this.evolution = evolution;
         population = new ArrayList<>();
     }
 
-    public Population(Evolution evolution, int count, int dim, int xMin, int xMax, int sigmaMax, int funcNum){
+    /**
+     *
+     * @param evolution
+     * @param count
+     * @param dim
+     * @param xMin
+     * @param xMax
+     * @param sigmaMax
+     * @param funcNum
+     */
+    public Population(Evolution evolution, int count, int dim, int xMin, int xMax, int sigmaMax, int funcNum) {
         this.evolution = evolution;
         population = new ArrayList<>();
-        for(int i=0; i<count; i++){
+
+        for (int i = 0; i < count; ++i) {
             this.addToPopulation(new Individual(evolution, dim, xMin, xMax, sigmaMax, funcNum));
         }
     }
 
+    /**
+     *
+     * @param evolution
+     * @param individuals
+     */
     public Population(Evolution evolution, ArrayList<Individual> individuals) {
         this.evolution = evolution;
         population = new ArrayList<>(individuals);
     }
 
+
+    /*----- Getters & setters -----*/
+
+    /**
+     *
+     * @return
+     */
+    public int getSize() {
+        return population.size();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<Individual> getPopulation() {
+        return population;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getDimension() {
+        return population.get(0).getDimension();
+    }
+
+
+    /*----- Methods -----*/
+
+    /**
+     *
+     * @param individual
+     */
     public void addToPopulation(Individual individual) {
         population.add(individual);
     }
 
-    public void addToPopulation(ArrayList<Individual> individuals){
+    /**
+     *
+     * @param individuals
+     */
+    public void addToPopulation(ArrayList<Individual> individuals) {
         population.addAll(individuals);
     }
 
+    /**
+     *
+     * @param individual
+     */
     public void removeFromPopulation(Individual individual) {
         population.remove(individual);
     }
 
-    public void removeFromPopulation(int newSize){
-        for(int i=getSize()-1; i>=newSize; i--){
+    /**
+     *
+     * @param newSize
+     */
+    public void removeFromPopulation(int newSize) {
+        for (int i = getSize() - 1; i >= newSize; --i) {
             population.remove(i);
         }
     }
 
-
+    /**
+     *
+     * @param detail
+     */
     public void showPopulation(boolean detail) {
         double sum = 0;
-        for(Individual i : population) {
-            if(detail) {
+        for (Individual i : population) {
+            if (detail) {
                 System.out.println("x     " + i.getX() + "\nsigma " + i.getSigma() + "\n" + i.getObjFuncVal() + "\n");
             }
             sum += i.getX().get(0);
         }
-        System.out.println("srednia     " + sum/getSize() + "\n");
+        System.out.println("srednia     " + sum / getSize() + "\n");
 
     }
 
+    /**
+     *
+     */
     void performWedding() {
         Collections.shuffle(population);
-        for(int i = 0; i < getSize(); i++) {
-            if(population.get(i).isMarried()) {
+        for (int i = 0; i < getSize(); i++) {
+            if (population.get(i).isMarried()) {
                 continue;
             }
 
             Individual first = population.get(i);
 
-            while(++i != getSize() && population.get(i).isMarried()) { }
+            while (++i != getSize() && population.get(i).isMarried()) {
+            }
 
-            if(i != getSize()) {
+            if (i != getSize()) {
                 first.marry(population.get(i));
             }
         }
     }
 
+    /**
+     *
+     * @param count
+     * @param mutationProbability
+     * @return
+     * @throws CloneNotSupportedException
+     */
     Population createChildrenPopulation(int count, double mutationProbability) throws CloneNotSupportedException {
         double functionValueSum = 0;
 
         //count sum of function values
-        for(Individual individual: population){
+        for (Individual individual : population) {
             functionValueSum += individual.getObjFuncVal();
         }
 
         //generate count random numbers from 0 to functionValueSum
-        ArrayList<Double>randoms = new ArrayList<>();
-        for(int i=0; i<count; ++i){
-            randoms.add(rand.nextDouble()*functionValueSum);
+        ArrayList<Double> randoms = new ArrayList<>();
+        for (int i = 0; i < count; ++i) {
+            randoms.add(rand.nextDouble() * functionValueSum);
         }
 
         Collections.sort(randoms);
@@ -97,15 +180,15 @@ public class Population {
         //generate new population using roulette wheel
         double wheelPointer = 0;
         int randomsIndex = 0;
-        for(Individual individual: population){
+        for (Individual individual : population) {
             wheelPointer += individual.getObjFuncVal();
-            if(randomsIndex >= count){
+            if (randomsIndex >= count) {
                 break;
             }
             //until random will not exceed wheelPointer, individual is cloned to child population
-            while(randoms.get(randomsIndex) <= wheelPointer){
-                pop.addToPopulation((Individual)individual.clone());
-                if(++randomsIndex >= count){
+            while (randoms.get(randomsIndex) <= wheelPointer) {
+                pop.addToPopulation((Individual) individual.clone());
+                if (++randomsIndex >= count) {
                     break;
                 }
             }
@@ -116,13 +199,17 @@ public class Population {
         return pop;
     }
 
+    /**
+     *
+     * @param mutationProbability
+     */
     void performMutations(double mutationProbability) {
         double tau = 1 / (Math.sqrt(2 * getDimension()));
         double tauPrim = 1 / (Math.sqrt(2 * Math.sqrt(getDimension())));
 
-        for(Individual individual : population) {
+        for (Individual individual : population) {
             // Mutate only some of the individuals in population
-            if(rand.nextDouble() > mutationProbability) {
+            if (rand.nextDouble() > mutationProbability) {
                 continue;
             }
 
@@ -131,12 +218,12 @@ public class Population {
 
             double normDistr = rand.nextGaussian();
 
-            for(double sigma : individual.getSigma()) {
+            for (double sigma : individual.getSigma()) {
                 newSigma.add(sigma * Math.exp(tau * normDistr + tauPrim * rand.nextGaussian()));
             }
 
             int counter = 0;
-            for(double x : individual.getX()) {
+            for (double x : individual.getX()) {
                 newX.add(x + (newSigma.get(counter) * rand.nextGaussian()));
                 counter++;
             }
@@ -147,7 +234,7 @@ public class Population {
         }
     }
 
-    /**
+    /*
      * 1. Stworzenie losowej populacji liczb rzeczywistych (mi osobników) // zrobione w konstruktorze
      * 2. Obliczenie funkcji przystosowania
      * 3. Połączenie w pary i wyliczenie nowych funkcji przystosowania
@@ -155,10 +242,16 @@ public class Population {
      * 5. Mutacje na podstawie sigmy z rozkładem normalnym
      * 6. Obliczenie funkcji przystosowania i wybór mi najlepszych osobników
      * 7. Jeżeli nie warunek stopu, to powróć do punktu 3.
+     */
+    /**
      *
+     * @param lambda
+     * @param isWedding
+     * @param mutationProbability
+     * @return
      */
     public Population performEvolution(int lambda, boolean isWedding, double mutationProbability) {
-        if(isWedding) {
+        if (isWedding) {
             performWedding();
         }
 
@@ -179,44 +272,30 @@ public class Population {
     /**
      * From combined original population and child population we choose new population by limiting it to original size
      * (choosing individuals with best objective function).
+     *
      * @param childrenPopulation
      * @return
      */
-    public Population limitPopulation(Population childrenPopulation){
-        //create one references population
+    public Population limitPopulation(Population childrenPopulation) {
+        // Create one references population
         Population allPopulation = new Population(evolution, population);
-        allPopulation.addToPopulation( childrenPopulation.getPopulation() );
+        allPopulation.addToPopulation(childrenPopulation.getPopulation());
 
-        //sort population by objective function value descending
+        // Sort population by objective function value descending
         allPopulation.population.sort(new Comparator<Individual>() {
             @Override
             public int compare(Individual o1, Individual o2) {
-                if(o2.getObjFuncVal() > o1.getObjFuncVal()){
+                if (o2.getObjFuncVal() > o1.getObjFuncVal()) {
                     return -1;
-                }
-                else if(o2.getObjFuncVal() == o1.getObjFuncVal()){
+                } else if (o2.getObjFuncVal() == o1.getObjFuncVal()) {
                     return 0;
-                }
-                else return 1;
+                } else return 1;
             }
         });
 
         allPopulation.removeFromPopulation(getSize());
 
         return allPopulation;
-    }
-
-    public int getSize(){
-        return population.size();
-    }
-
-
-    public ArrayList<Individual> getPopulation() {
-        return population;
-    }
-
-    public int getDimension() {
-        return population.get(0).getDimension();
     }
 
 }

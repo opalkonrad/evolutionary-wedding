@@ -28,6 +28,5 @@ public class Main {
         evolution.showPopulation(true);
         evolution.performEvolution();
         evolution.showPopulation(true);
-
     }
 }
