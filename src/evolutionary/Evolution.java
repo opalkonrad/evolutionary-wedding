@@ -31,7 +31,6 @@ public class Evolution {
      * @param mutationProbability
      */
     public Evolution(int mi, int childrenCount, int dim, int funcNum, int repeatNum, boolean isWedding, double mutationProbability) {
-        population = new Population(this, mi, dim, -100, 100, 10, funcNum);
         this.dim = dim;
         this.childrenCount = childrenCount;
         this.isWedding = isWedding;
@@ -59,6 +58,8 @@ public class Evolution {
                 optimum[i][j] = rand.nextDouble() * 160 - 80;
             }
         }
+
+        population = new Population(this, mi, dim, -100, 100, 10, funcNum);
     }
 
 
