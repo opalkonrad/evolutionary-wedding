@@ -234,15 +234,6 @@ public class Population {
         }
     }
 
-    /*
-     * 1. Stworzenie losowej populacji liczb rzeczywistych (mi osobników) // zrobione w konstruktorze
-     * 2. Obliczenie funkcji przystosowania
-     * 3. Połączenie w pary i wyliczenie nowych funkcji przystosowania
-     * 4. Nowa populacja za pomocą koła ruletki (lambda osobników)
-     * 5. Mutacje na podstawie sigmy z rozkładem normalnym
-     * 6. Obliczenie funkcji przystosowania i wybór mi najlepszych osobników
-     * 7. Jeżeli nie warunek stopu, to powróć do punktu 3.
-     */
     /**
      *
      * @param lambda
