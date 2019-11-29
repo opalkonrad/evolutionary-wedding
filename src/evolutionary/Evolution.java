@@ -120,11 +120,17 @@ public class Evolution {
             System.out.print(i + " [");
 
             for (int j = 0; j < dim; ++j) {
-                System.out.print(getOptimum(i, j) + "    ");
+                if (j == dim - 1) {
+                    System.out.print(getOptimum(i, j));
+                } else {
+                    System.out.print(getOptimum(i, j) + ", ");
+                }
             }
 
-            System.out.println("");
+            System.out.println("]");
         }
+
+        System.out.println("");
 
         population.showPopulation(all);
     }

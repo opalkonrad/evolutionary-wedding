@@ -120,15 +120,16 @@ public class Population {
      * @param detail
      */
     public void showPopulation(boolean detail) {
-        double sum = 0;
-        for (Individual i : population) {
-            if (detail) {
-                System.out.println("x     " + i.getX() + "\nsigma " + i.getSigma() + "\n" + i.getObjFuncVal() + "\n");
-            }
-            sum += i.getX().get(0);
-        }
-        System.out.println("srednia     " + sum / getSize() + "\n");
+        Individual bestIndividual = population.get(0);
+        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
 
+        if (detail) {
+            System.out.println("Additional info:");
+
+            for (Individual i : population) {
+                System.out.println("X     " + i.getX() + "\nsigma " + i.getSigma() + "\n" + i.getObjFuncVal() + "\n");
+            }
+        }
     }
 
     /**

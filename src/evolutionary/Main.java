@@ -23,7 +23,7 @@ public class Main {
 //        ch.showPopulation(true);
 //
 //        population1.limitPopulation(ch).showPopulation(true);
-        Evolution evolution = new Evolution(1000, 1500, 10, 23, 100, true, 0.6);
+        Evolution evolution = new Evolution(5, 8, 10, 23, 100, true, 0.6);
         //Evolution evolution = new Evolution(3, 5, 1, 23, 4, true, 1);
         evolution.showPopulation(true);
         evolution.performEvolution();
