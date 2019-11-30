@@ -16,6 +16,7 @@ public class Population implements Cloneable {
 
     /**
      * Population default constructor with empty set of individuals.
+     *
      * @param evolution reference to mother class Evolution
      * @see ArrayList
      */
@@ -26,13 +27,14 @@ public class Population implements Cloneable {
 
     /**
      * Population constructor, creating individuals with given parameters
+     *
      * @param evolution reference to mother class Evolution
-     * @param count number of individuals in population
-     * @param dim dimension of each individual
-     * @param xMin minimum value of gene
-     * @param xMax maximum value of gene
-     * @param sigmaMax maximum sigma value (sigma randomly generated from 0 to sigmaMax
-     * @param funcNum number of CEC 2014 function, which will be optimized
+     * @param count     number of individuals in population
+     * @param dim       dimension of each individual
+     * @param xMin      minimum value of gene
+     * @param xMax      maximum value of gene
+     * @param sigmaMax  maximum sigma value (sigma randomly generated from 0 to sigmaMax
+     * @param funcNum   number of CEC 2014 function, which will be optimized
      * @see Individual#Individual(Evolution, int, int, int, int, int)
      * @see ArrayList
      */
@@ -46,7 +48,7 @@ public class Population implements Cloneable {
     }
 
     /**
-     * @param evolution reference to mother class Evolution
+     * @param evolution   reference to mother class Evolution
      * @param individuals ArrayList of individuals which is copied to
      */
     public Population(Evolution evolution, ArrayList<Individual> individuals) {
@@ -73,6 +75,7 @@ public class Population implements Cloneable {
 
     /**
      * Set new population
+     *
      * @param population New population
      */
     public void setPopulation(ArrayList<Individual> population) {
@@ -84,6 +87,10 @@ public class Population implements Cloneable {
      */
     public int getDimension() {
         return population.get(0).getDimension();
+    }
+
+    public double getBestIndividual() {
+        return population.get(0).getObjFuncVal();
     }
 
 
@@ -117,6 +124,7 @@ public class Population implements Cloneable {
 
     /**
      * Removes last individuals from population to get newSize of population
+     *
      * @param newSize new number of individuals in population
      * @see ArrayList#remove(int)
      */
@@ -128,6 +136,7 @@ public class Population implements Cloneable {
 
     /**
      * Shows to standard output population details.
+     *
      * @param detail flag whether to show details of population, or short summary
      */
     public void showPopulation(boolean detail) {
@@ -151,6 +160,7 @@ public class Population implements Cloneable {
 
     /**
      * Modification of classical evolutionary algorithm. Connects individuals in pairs, averages their objective function value and confirms it in individual flag
+     *
      * @see Individual#setObjFuncVal(double)
      * @see Individual#marry(Individual)
      * @see Collections#shuffle(List)
@@ -175,11 +185,12 @@ public class Population implements Cloneable {
 
     /**
      * On base of wheel roulette method creates new children population by copying individuals to new references and performing mutations on them.
-     * @author sitekwb
-     * @param count size of new children population
+     *
+     * @param count               size of new children population
      * @param mutationProbability probability of each mutation
      * @return children population
      * @throws CloneNotSupportedException may throw exception, if clone is not supported
+     * @author sitekwb
      * @see Population#performMutations(double)
      */
     Population createChildrenPopulation(int count, double mutationProbability) throws CloneNotSupportedException {
@@ -224,8 +235,9 @@ public class Population implements Cloneable {
 
     /**
      * Performs random mutations on individual with probability given in parameters.
-     * @author opalkonrad
+     *
      * @param mutationProbability probability of mutations
+     * @author opalkonrad
      */
     void performMutations(double mutationProbability) {
         double tau = 1 / (Math.sqrt(2 * getDimension()));
@@ -260,8 +272,9 @@ public class Population implements Cloneable {
 
     /**
      * Performs evolution on population.
-     * @param lambda number of children
-     * @param isWedding determines if there is wedding modification of evolutionary algorithm
+     *
+     * @param lambda              number of children
+     * @param isWedding           determines if there is wedding modification of evolutionary algorithm
      * @param mutationProbability probability of mutations of children population
      * @return new population after one evolution
      */
@@ -287,9 +300,10 @@ public class Population implements Cloneable {
     /**
      * From combined original population and child population we choose new population by limiting it to original size
      * (choosing individuals with best objective function).
-     * @author sitekwb
+     *
      * @param childrenPopulation reference to population of children in evolution
      * @return new population made of combined and limited parent and children evolution
+     * @author sitekwb
      */
     public Population limitPopulation(Population childrenPopulation) {
         // Create one references population
@@ -313,6 +327,12 @@ public class Population implements Cloneable {
         return allPopulation;
     }
 
+    /**
+     * Clone Population with new individuals array equal to cloneable object.
+     *
+     * @return New Population.
+     * @throws CloneNotSupportedException When cannot clone the object.
+     */
     @Override
     public Object clone() throws CloneNotSupportedException {
         Population clone = (Population) super.clone();

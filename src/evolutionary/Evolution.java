@@ -1,5 +1,7 @@
 package evolutionary;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -74,6 +76,15 @@ public class Evolution {
 
         population = new Population(this, mi, dim, -100, 100, 10, funcNum);
 
+        // Sort population at the beginning to show three best individuals
+        population.getPopulation().sort((o1, o2) -> {
+            if (o2.getObjFuncVal() > o1.getObjFuncVal()) {
+                return -1;
+            } else if (o2.getObjFuncVal() == o1.getObjFuncVal()) {
+                return 0;
+            } else return 1;
+        });
+
         try {
             newPopulationWithWedding = (Population) population.clone();
             newPopulationWithoutWedding = (Population) population.clone();
@@ -134,22 +145,34 @@ public class Evolution {
      * @param all Additional parameter to show x and sigma arrays of all population.
      */
     public void showPopulation(boolean all) {
-        System.out.println("\n\n##################################################");
-
-        System.out.println("--------------------------------------------------");
         System.out.println("TOP 3 - Initial population");
         System.out.println("--------------------------------------------------");
         population.showPopulation(all);
 
-        System.out.println("--------------------------------------------------");
+        System.out.println("");
         System.out.println("TOP 3 - Population with wedding");
         System.out.println("--------------------------------------------------");
         newPopulationWithWedding.showPopulation(all);
 
-        System.out.println("--------------------------------------------------");
+        System.out.println("");
         System.out.println("TOP 3 - Population without wedding");
         System.out.println("--------------------------------------------------");
         newPopulationWithoutWedding.showPopulation(all);
+    }
+
+    public double[] bestObjFuncValIndividual() {
+        double[] best = new double[3];
+
+        // Best in initial population
+        best[0] = population.getBestIndividual();
+
+        // Best in population with wedding
+        best[1] = newPopulationWithWedding.getBestIndividual();
+
+        // Best in population without wedding
+        best[2] = newPopulationWithoutWedding.getBestIndividual();
+
+        return best;
     }
 
 }
