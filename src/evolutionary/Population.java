@@ -1,10 +1,11 @@
 package evolutionary;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Random;
+import java.util.*;
 
+/**
+ * @author sitekwb
+ * @author opalkonrad
+ */
 public class Population {
     private ArrayList<Individual> population;
     private Random rand = new Random();
@@ -14,7 +15,9 @@ public class Population {
     /*----- Constructors -----*/
 
     /**
-     * @param evolution
+     * Population default constructor with empty set of individuals.
+     * @param evolution reference to mother class Evolution
+     * @see ArrayList
      */
     public Population(Evolution evolution) {
         this.evolution = evolution;
@@ -22,13 +25,16 @@ public class Population {
     }
 
     /**
-     * @param evolution
-     * @param count
-     * @param dim
-     * @param xMin
-     * @param xMax
-     * @param sigmaMax
-     * @param funcNum
+     * Population constructor, creating individuals with given parameters
+     * @param evolution reference to mother class Evolution
+     * @param count number of individuals in population
+     * @param dim dimension of each individual
+     * @param xMin minimum value of gene
+     * @param xMax maximum value of gene
+     * @param sigmaMax maximum sigma value (sigma randomly generated from 0 to sigmaMax
+     * @param funcNum number of CEC 2014 function, which will be optimized
+     * @see Individual#Individual(Evolution, int, int, int, int, int)
+     * @see ArrayList
      */
     public Population(Evolution evolution, int count, int dim, int xMin, int xMax, int sigmaMax, int funcNum) {
         this.evolution = evolution;
@@ -40,8 +46,8 @@ public class Population {
     }
 
     /**
-     * @param evolution
-     * @param individuals
+     * @param evolution reference to mother class Evolution
+     * @param individuals ArrayList of individuals which is copied to
      */
     public Population(Evolution evolution, ArrayList<Individual> individuals) {
         this.evolution = evolution;
@@ -52,21 +58,21 @@ public class Population {
     /*----- Getters & setters -----*/
 
     /**
-     * @return
+     * @return number of individuals
      */
     public int getSize() {
         return population.size();
     }
 
     /**
-     * @return
+     * @return population reference
      */
     public ArrayList<Individual> getPopulation() {
         return population;
     }
 
     /**
-     * @return
+     * @return dimension of each individual
      */
     public int getDimension() {
         return population.get(0).getDimension();
@@ -76,28 +82,35 @@ public class Population {
     /*----- Methods -----*/
 
     /**
-     * @param individual
+     * @param individual reference of individual to add to population
+     * @see Population#population
      */
     public void addToPopulation(Individual individual) {
         population.add(individual);
     }
 
     /**
-     * @param individuals
+     * @param individuals set of many references of individuals to add to population
+     * @see Population#population
+     * @see ArrayList
+     * @see ArrayList#addAll(Collection)
      */
     public void addToPopulation(ArrayList<Individual> individuals) {
         population.addAll(individuals);
     }
 
     /**
-     * @param individual
+     * @param individual reference of individual to remove from population
+     * @see ArrayList#remove(Object)
      */
     public void removeFromPopulation(Individual individual) {
         population.remove(individual);
     }
 
     /**
-     * @param newSize
+     * Removes last individuals from population to get newSize of population
+     * @param newSize new number of individuals in population
+     * @see ArrayList#remove(int)
      */
     public void removeFromPopulation(int newSize) {
         for (int i = getSize() - 1; i >= newSize; --i) {
@@ -106,7 +119,8 @@ public class Population {
     }
 
     /**
-     * @param detail
+     * Shows to standard output population details.
+     * @param detail flag whether to show details of population, or short summary
      */
     public void showPopulation(boolean detail) {
         Individual bestIndividual = population.get(0);
@@ -122,7 +136,10 @@ public class Population {
     }
 
     /**
-     *
+     * Modification of classical evolutionary algorithm. Connects individuals in pairs, averages their objective function value and confirms it in individual flag
+     * @see Individual#setObjFuncVal(double)
+     * @see Individual#marry(Individual)
+     * @see Collections#shuffle(List)
      */
     void performWedding() {
         Collections.shuffle(population);
@@ -143,10 +160,13 @@ public class Population {
     }
 
     /**
-     * @param count
-     * @param mutationProbability
-     * @return
-     * @throws CloneNotSupportedException
+     * On base of wheel roulette method creates new children population by copying individuals to new references and performing mutations on them.
+     * @author sitekwb
+     * @param count size of new children population
+     * @param mutationProbability probability of each mutation
+     * @return children population
+     * @throws CloneNotSupportedException may throw exception, if clone is not supported
+     * @see Population#performMutations(double)
      */
     Population createChildrenPopulation(int count, double mutationProbability) throws CloneNotSupportedException {
         double functionValueSum = 0;
@@ -189,7 +209,9 @@ public class Population {
     }
 
     /**
-     * @param mutationProbability
+     * Performs random mutations on individual with probability given in parameters.
+     * @author opalkonrad
+     * @param mutationProbability probability of mutations
      */
     void performMutations(double mutationProbability) {
         double tau = 1 / (Math.sqrt(2 * getDimension()));
@@ -223,10 +245,11 @@ public class Population {
     }
 
     /**
-     * @param lambda
-     * @param isWedding
-     * @param mutationProbability
-     * @return
+     * Performs evolution on population.
+     * @param lambda number of children
+     * @param isWedding determines if there is wedding modification of evolutionary algorithm
+     * @param mutationProbability probability of mutations of children population
+     * @return new population after one evolution
      */
     public Population performEvolution(int lambda, boolean isWedding, double mutationProbability) {
         if (isWedding) {
@@ -250,9 +273,9 @@ public class Population {
     /**
      * From combined original population and child population we choose new population by limiting it to original size
      * (choosing individuals with best objective function).
-     *
-     * @param childrenPopulation
-     * @return
+     * @author sitekwb
+     * @param childrenPopulation reference to population of children in evolution
+     * @return new population made of combined and limited parent and children evolution
      */
     public Population limitPopulation(Population childrenPopulation) {
         // Create one references population

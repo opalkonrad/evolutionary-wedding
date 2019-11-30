@@ -86,7 +86,6 @@ public class Evolution {
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -111,7 +110,6 @@ public class Evolution {
     }
 
     /**
-     *
      * @param all
      */
     public void showPopulation(boolean all) {
