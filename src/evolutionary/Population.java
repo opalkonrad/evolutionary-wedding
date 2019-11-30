@@ -14,7 +14,6 @@ public class Population {
     /*----- Constructors -----*/
 
     /**
-     *
      * @param evolution
      */
     public Population(Evolution evolution) {
@@ -23,7 +22,6 @@ public class Population {
     }
 
     /**
-     *
      * @param evolution
      * @param count
      * @param dim
@@ -42,7 +40,6 @@ public class Population {
     }
 
     /**
-     *
      * @param evolution
      * @param individuals
      */
@@ -55,7 +52,6 @@ public class Population {
     /*----- Getters & setters -----*/
 
     /**
-     *
      * @return
      */
     public int getSize() {
@@ -63,7 +59,6 @@ public class Population {
     }
 
     /**
-     *
      * @return
      */
     public ArrayList<Individual> getPopulation() {
@@ -71,7 +66,6 @@ public class Population {
     }
 
     /**
-     *
      * @return
      */
     public int getDimension() {
@@ -82,7 +76,6 @@ public class Population {
     /*----- Methods -----*/
 
     /**
-     *
      * @param individual
      */
     public void addToPopulation(Individual individual) {
@@ -90,7 +83,6 @@ public class Population {
     }
 
     /**
-     *
      * @param individuals
      */
     public void addToPopulation(ArrayList<Individual> individuals) {
@@ -98,7 +90,6 @@ public class Population {
     }
 
     /**
-     *
      * @param individual
      */
     public void removeFromPopulation(Individual individual) {
@@ -106,7 +97,6 @@ public class Population {
     }
 
     /**
-     *
      * @param newSize
      */
     public void removeFromPopulation(int newSize) {
@@ -116,7 +106,6 @@ public class Population {
     }
 
     /**
-     *
      * @param detail
      */
     public void showPopulation(boolean detail) {
@@ -154,7 +143,6 @@ public class Population {
     }
 
     /**
-     *
      * @param count
      * @param mutationProbability
      * @return
@@ -165,7 +153,7 @@ public class Population {
 
         //count sum of function values
         for (Individual individual : population) {
-            functionValueSum += individual.getObjFuncVal();
+            functionValueSum += 1.0 / individual.getObjFuncVal(); //we minimize objective function, so the bigger objective function is, the smaller part of roulette wheel it occupies
         }
 
         //generate count random numbers from 0 to functionValueSum
@@ -182,7 +170,7 @@ public class Population {
         double wheelPointer = 0;
         int randomsIndex = 0;
         for (Individual individual : population) {
-            wheelPointer += individual.getObjFuncVal();
+            wheelPointer += 1.0 / individual.getObjFuncVal();
             if (randomsIndex >= count) {
                 break;
             }
@@ -201,7 +189,6 @@ public class Population {
     }
 
     /**
-     *
      * @param mutationProbability
      */
     void performMutations(double mutationProbability) {
@@ -236,7 +223,6 @@ public class Population {
     }
 
     /**
-     *
      * @param lambda
      * @param isWedding
      * @param mutationProbability
