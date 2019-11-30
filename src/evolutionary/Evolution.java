@@ -2,6 +2,10 @@ package evolutionary;
 
 import java.util.Random;
 
+/**
+ * Represents evolution that is conducted on population n times.
+ * It also includes many objective functions that can be used.
+ */
 public class Evolution {
     private Population population;
     private int childrenCount;
@@ -22,13 +26,13 @@ public class Evolution {
     /*----- Constructors -----*/
 
     /**
-     * @param mi
-     * @param childrenCount
-     * @param dim
-     * @param funcNum
-     * @param repeatNum
-     * @param isWedding
-     * @param mutationProbability
+     * @param mi                  Size of the initial population.
+     * @param childrenCount       Size of children population, in mi + lambda that is lambda.
+     * @param dim                 Dimension of x and sigma array.
+     * @param funcNum             Number of objective function.
+     * @param repeatNum           Number of evolutions.
+     * @param isWedding           Choose whether individuals should marry or not (mean of objective function values).
+     * @param mutationProbability Probability of performing mutations.
      */
     public Evolution(int mi, int childrenCount, int dim, int funcNum, int repeatNum, boolean isWedding, double mutationProbability) {
         this.dim = dim;
@@ -48,6 +52,14 @@ public class Evolution {
 
             case 27:
                 // TODO function 27
+                break;
+
+            default:
+                N = 0;
+                sigma = new double[]{};
+                lambda = new double[]{};
+                g = new int[]{};
+                bias = new double[]{};
         }
 
         optimum = new double[N][dim];
@@ -86,8 +98,8 @@ public class Evolution {
     }
 
     /**
-     * @param i
-     * @param j
+     * @param i Number of i function.
+     * @param j Number of dimension.
      * @return
      */
     public double getOptimum(int i, int j) {
@@ -101,7 +113,7 @@ public class Evolution {
     /*----- Methods -----*/
 
     /**
-     *
+     * Performs evolution on population n times.
      */
     public void performEvolution() {
         for (int i = 0; i < repeatNum; ++i) {
@@ -110,7 +122,7 @@ public class Evolution {
     }
 
     /**
-     * @param all
+     * @param all Additional parameter to show x and sigma arrays of all population.
      */
     public void showPopulation(boolean all) {
         System.out.println("OPTIMA:");
