@@ -6,7 +6,7 @@ import java.util.*;
  * @author sitekwb
  * @author opalkonrad
  */
-public class Population {
+public class Population implements Cloneable {
     private ArrayList<Individual> population;
     private Random rand = new Random();
     private Evolution evolution;
@@ -126,11 +126,24 @@ public class Population {
         Individual bestIndividual = population.get(0);
         System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
 
+        bestIndividual = population.get(1);
+        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
+
+        bestIndividual = population.get(2);
+        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
+
+        bestIndividual = population.get(3);
+        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
+
+        bestIndividual = population.get(4);
+        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
+
+
         if (detail) {
             System.out.println("Additional info:");
 
             for (Individual i : population) {
-                System.out.println("X     " + i.getX() + "\nsigma " + i.getSigma() + "\n" + i.getObjFuncVal() + "\n");
+                System.out.println("X     " + i.getX() + "\nSigma " + i.getSigma() + "\nObjective function value = " + i.getObjFuncVal() + "\n");
             }
         }
     }
@@ -297,6 +310,18 @@ public class Population {
         allPopulation.removeFromPopulation(getSize());
 
         return allPopulation;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Population clone = (Population) super.clone();
+
+        // Copy population
+        ArrayList<Individual> popTmp = new ArrayList<>(population);
+
+        clone.addToPopulation(popTmp);
+
+        return clone;
     }
 
 }

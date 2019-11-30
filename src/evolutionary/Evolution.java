@@ -8,9 +8,11 @@ import java.util.Random;
  */
 public class Evolution {
     private Population population;
+    private Population newPopulationWithWedding;
+    private Population newPopulationWithoutWedding;
     private int childrenCount;
     private double[][] optimum;
-    private boolean isWedding;
+    private boolean[] isWedding;
     private double mutationProbability;
     private int repeatNum;
     private int dim;
@@ -31,13 +33,12 @@ public class Evolution {
      * @param dim                 Dimension of x and sigma array.
      * @param funcNum             Number of objective function.
      * @param repeatNum           Number of evolutions.
-     * @param isWedding           Choose whether individuals should marry or not (mean of objective function values).
      * @param mutationProbability Probability of performing mutations.
      */
-    public Evolution(int mi, int childrenCount, int dim, int funcNum, int repeatNum, boolean isWedding, double mutationProbability) {
+    public Evolution(int mi, int childrenCount, int dim, int funcNum, int repeatNum, double mutationProbability) {
         this.dim = dim;
         this.childrenCount = childrenCount;
-        this.isWedding = isWedding;
+        this.isWedding = new boolean[]{true, false};
         this.mutationProbability = mutationProbability;
         this.repeatNum = repeatNum;
 
@@ -55,7 +56,7 @@ public class Evolution {
                 break;
 
             default:
-                N = 0;
+                N = 1;
                 sigma = new double[]{};
                 lambda = new double[]{};
                 g = new int[]{};
@@ -72,6 +73,13 @@ public class Evolution {
         }
 
         population = new Population(this, mi, dim, -100, 100, 10, funcNum);
+
+        try {
+            newPopulationWithWedding = (Population) population.clone();
+            newPopulationWithoutWedding = (Population) population.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -117,7 +125,8 @@ public class Evolution {
      */
     public void performEvolution() {
         for (int i = 0; i < repeatNum; ++i) {
-            population = population.performEvolution(childrenCount, isWedding, mutationProbability);
+            newPopulationWithWedding = newPopulationWithWedding.performEvolution(childrenCount, isWedding[0], mutationProbability);
+            newPopulationWithoutWedding = newPopulationWithoutWedding.performEvolution(childrenCount, isWedding[1], mutationProbability);
         }
     }
 
