@@ -134,25 +134,22 @@ public class Evolution {
      * @param all Additional parameter to show x and sigma arrays of all population.
      */
     public void showPopulation(boolean all) {
-        System.out.println("OPTIMA:");
+        System.out.println("\n\n##################################################");
 
-        for (int i = 0; i < N; ++i) {
-            System.out.print(i + " [");
-
-            for (int j = 0; j < dim; ++j) {
-                if (j == dim - 1) {
-                    System.out.print(getOptimum(i, j));
-                } else {
-                    System.out.print(getOptimum(i, j) + ", ");
-                }
-            }
-
-            System.out.println("]");
-        }
-
-        System.out.println("");
-
+        System.out.println("--------------------------------------------------");
+        System.out.println("TOP 3 - Initial population");
+        System.out.println("--------------------------------------------------");
         population.showPopulation(all);
+
+        System.out.println("--------------------------------------------------");
+        System.out.println("TOP 3 - Population with wedding");
+        System.out.println("--------------------------------------------------");
+        newPopulationWithWedding.showPopulation(all);
+
+        System.out.println("--------------------------------------------------");
+        System.out.println("TOP 3 - Population without wedding");
+        System.out.println("--------------------------------------------------");
+        newPopulationWithoutWedding.showPopulation(all);
     }
 
 }

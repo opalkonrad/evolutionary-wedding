@@ -72,6 +72,14 @@ public class Population implements Cloneable {
     }
 
     /**
+     * Set new population
+     * @param population New population
+     */
+    public void setPopulation(ArrayList<Individual> population) {
+        this.population = population;
+    }
+
+    /**
      * @return dimension of each individual
      */
     public int getDimension() {
@@ -124,20 +132,13 @@ public class Population implements Cloneable {
      */
     public void showPopulation(boolean detail) {
         Individual bestIndividual = population.get(0);
-        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
+        System.out.println("Best individual 1:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
 
         bestIndividual = population.get(1);
-        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
+        System.out.println("Best individual 2:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
 
         bestIndividual = population.get(2);
-        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
-
-        bestIndividual = population.get(3);
-        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
-
-        bestIndividual = population.get(4);
-        System.out.println("Best individual:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
-
+        System.out.println("Best individual 3:\nX      " + bestIndividual.getX() + "\nSigma  " + bestIndividual.getSigma() + "\nObjective function value = " + bestIndividual.getObjFuncVal() + "\n");
 
         if (detail) {
             System.out.println("Additional info:");
@@ -316,10 +317,14 @@ public class Population implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         Population clone = (Population) super.clone();
 
-        // Copy population
-        ArrayList<Individual> popTmp = new ArrayList<>(population);
+        ArrayList<Individual> popTmp = new ArrayList<>();
 
-        clone.addToPopulation(popTmp);
+        // Copy population
+        for (Individual i : population) {
+            popTmp.add((Individual) i.clone());
+        }
+
+        clone.setPopulation(popTmp);
 
         return clone;
     }
