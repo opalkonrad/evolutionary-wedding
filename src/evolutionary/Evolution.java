@@ -1,7 +1,5 @@
 package evolutionary;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -54,7 +52,11 @@ public class Evolution {
                 break;
 
             case 27:
-                // TODO function 27
+                N = 5;
+                sigma = new double[]{10, 10, 10, 20, 20};
+                lambda = new double[]{10, 10, 2.5, 25, 1e-6};
+                g = new int[]{12, 8, 9, 6, 1};
+                bias = new double[]{0, 100, 200, 300, 400};
                 break;
 
             default:
