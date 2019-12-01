@@ -177,4 +177,19 @@ public class Evolution {
         return best;
     }
 
+    public double[] worstObjFuncValIndividual() {
+        double[] worst = new double[3];
+
+        // Worst in initial population
+        worst[0] = population.getWorstIndividual();
+
+        // Worst in population with wedding
+        worst[1] = newPopulationWithWedding.getWorstIndividual();
+
+        // Worst in population without wedding
+        worst[2] = newPopulationWithoutWedding.getWorstIndividual();
+
+        return worst;
+    }
+
 }

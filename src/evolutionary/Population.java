@@ -93,6 +93,10 @@ public class Population implements Cloneable {
         return population.get(0).getObjFuncVal();
     }
 
+    public double getWorstIndividual() {
+        return population.get(population.size() - 1).getObjFuncVal();
+    }
+
 
     /*----- Methods -----*/
 

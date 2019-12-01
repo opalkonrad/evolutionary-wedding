@@ -120,8 +120,7 @@ public class Individual implements Cloneable {
     public void updateObjFuncVal() {
         try {
             setObjFuncVal(countObjFuncVal(funcNum));
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Not implemented function");
         }
     }
@@ -130,10 +129,10 @@ public class Individual implements Cloneable {
      * Used to count new objective function value
      *
      * @param funcNum number of CEC 2014 (without rotations and shifting) function
-     * @throws Exception when function with this number is not implemented
      * @return Objective function value for this individual and given as parameter function number.
+     * @throws Exception when function with this number is not implemented
      */
-    public double countObjFuncVal(int funcNum) throws Exception{
+    public double countObjFuncVal(int funcNum) throws Exception {
         switch (funcNum) {
             // High Conditioned Elliptic Function
             case 1:
@@ -200,7 +199,7 @@ public class Individual implements Cloneable {
                 double sum7_2 = 0;
                 double mul7 = 1;
 
-                for(int i = 0; i < getDimension(); ++i){
+                for (int i = 0; i < getDimension(); ++i) {
                     double x_i = x.get(i);
                     sum7_2 += x_i * x_i;
                     mul7 *= cos(x_i / sqrt(i));
@@ -211,24 +210,22 @@ public class Individual implements Cloneable {
             // Rastrigin's Function
             case 8:
                 double sum8 = 0;
-                for(double x_i: x){
-                    sum8 += x_i * x_i - 10 * cos(2*PI*x_i) + 10;
+                for (double x_i : x) {
+                    sum8 += x_i * x_i - 10 * cos(2 * PI * x_i) + 10;
                 }
                 return sum8;
 
             // Modified Schwefel's Function
             case 9:
                 double sum_9_gz = 0;
-                for(int i=0; i<getDimension(); ++i){
+                for (int i = 0; i < getDimension(); ++i) {
                     double z_i = x.get(i) + 4.209687462275036e+002;
-                    if(abs(z_i) <= 500){
+                    if (abs(z_i) <= 500) {
                         sum_9_gz += z_i * sin(sqrt(abs(z_i)));
-                    }
-                    else if(z_i > 500){
-                        sum_9_gz += (500 - (z_i%500)) * sin(sqrt(abs(500 - (z_i%500)))) - (z_i - 500)*(z_i - 500) / (10000 * getDimension());
-                    }
-                    else{
-                        sum_9_gz += (abs(z_i)%500 - 500) * sin(sqrt(abs(abs(z_i)%500 - 500))) - (z_i + 500) * (z_i + 500) / (10000 * getDimension());
+                    } else if (z_i > 500) {
+                        sum_9_gz += (500 - (z_i % 500)) * sin(sqrt(abs(500 - (z_i % 500)))) - (z_i - 500) * (z_i - 500) / (10000 * getDimension());
+                    } else {
+                        sum_9_gz += (abs(z_i) % 500 - 500) * sin(sqrt(abs(abs(z_i) % 500 - 500))) - (z_i + 500) * (z_i + 500) / (10000 * getDimension());
                     }
                 }
                 return 418.9829 * getDimension() - sum_9_gz;
@@ -237,15 +234,17 @@ public class Individual implements Cloneable {
             case 12:
                 double sum12_1 = 0;
                 double sum12_2 = 0;
-                for(double x_i: x){
+                for (double x_i : x) {
                     sum12_1 += x_i;
                     sum12_2 += x_i * x_i;
                 }
                 func = sqrt(abs(sum12_2 * sum12_2 - sum12_1 * sum12_1));
                 func += (0.5 * sum12_2 + sum12_1) / getDimension() + 0.5;
                 return func;
+
             // Composition Function 1 (not-rotated and not-shifted)
             case 23:
+
             // Composition Function 5 (not-rotated and not-shifted)
             case 27:
                 double[] w = new double[evolution.getN()];
@@ -257,7 +256,7 @@ public class Individual implements Cloneable {
                     double sum_1 = 0;
 
                     for (int j = 0; j < getDimension(); ++j) {
-                        sum_1 = pow(x.get(j) - evolution.getOptimum(i, j), 2);
+                        sum_1 += pow(x.get(j) - evolution.getOptimum(i, j), 2);
                     }
 
                     w[i] = exp((-sum_1) / (2 * getDimension() * pow(evolution.getSigma()[i], 2))) / sqrt(sum_1);
