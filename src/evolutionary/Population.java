@@ -321,12 +321,7 @@ public class Population implements Cloneable {
         allPopulation.addToPopulation(childrenPopulation.getPopulation());
 
         // Sort population by objective function value descending
-        allPopulation.getPopulation().sort(new Comparator<Individual>() {
-            @Override
-            public int compare(Individual o1, Individual o2) {
-                return Double.compare(o1.getObjFuncVal(), o2.getObjFuncVal());
-            }
-        });
+        allPopulation.getPopulation().sort(Comparator.comparingDouble(Individual::getObjFuncVal));
 
         allPopulation.removeFromPopulation(getSize());
 

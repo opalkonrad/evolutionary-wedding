@@ -1,5 +1,6 @@
 package evolutionary;
 
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -79,13 +80,7 @@ public class Evolution {
         population = new Population(this, mi, dim, -100, 100, 10, funcNum);
 
         // Sort population at the beginning to show three best individuals
-        population.getPopulation().sort((o1, o2) -> {
-            if (o2.getObjFuncVal() > o1.getObjFuncVal()) {
-                return -1;
-            } else if (o2.getObjFuncVal() == o1.getObjFuncVal()) {
-                return 0;
-            } else return 1;
-        });
+        population.getPopulation().sort(Comparator.comparingDouble(Individual::getObjFuncVal));
 
         try {
             newPopulationWithWedding = (Population) population.clone();
@@ -147,21 +142,26 @@ public class Evolution {
      * @param all Additional parameter to show x and sigma arrays of all population.
      */
     public void showPopulation(boolean all) {
-        System.out.println("TOP 3 - Initial population");
+        System.out.println("TOP 3 Individuals - Initial population");
         System.out.println("--------------------------------------------------");
         population.showPopulation(all);
 
         System.out.println("");
-        System.out.println("TOP 3 - Population with wedding");
+        System.out.println("TOP 3 Individuals - Population with wedding");
         System.out.println("--------------------------------------------------");
         newPopulationWithWedding.showPopulation(all);
 
         System.out.println("");
-        System.out.println("TOP 3 - Population without wedding");
+        System.out.println("TOP 3 Individuals - Population without wedding");
         System.out.println("--------------------------------------------------");
         newPopulationWithoutWedding.showPopulation(all);
     }
 
+    /**
+     * Counts the best Individual in all Populations of current Evolution
+     *
+     * @return Array with 3 the best individuals respectively from population, new population with wedding and without wedding
+     */
     public double[] bestObjFuncValIndividual() {
         double[] best = new double[3];
 
@@ -177,6 +177,11 @@ public class Evolution {
         return best;
     }
 
+    /**
+     * Counts the worst Individual in all Populations of current Evolution
+     *
+     * @return Array with 3 the worst individuals respectively from population, new population with wedding and without wedding
+     */
     public double[] worstObjFuncValIndividual() {
         double[] worst = new double[3];
 
