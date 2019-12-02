@@ -27,8 +27,5 @@ hs_err_pid*
 out
 evolutionary-wedding.iml
 
-# Test results
-test_info.txt
-
 # Documentation javadoc
 doc/

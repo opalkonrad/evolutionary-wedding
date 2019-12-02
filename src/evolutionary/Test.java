@@ -27,50 +27,83 @@ public class Test {
 
         System.out.println("First we will initialize 25 populations for functions: Weierstrass, Composition Function 1 and 2 (see documentation).");
         System.out.println("Algorithm mi + lambda will be executed on every population 75 times.");
-        System.out.println("\nParameters:\n- mi = 1000,\n- lambda = 1500,\n- mutation probability = 0.1 or 0.3,");
+        System.out.println("\nParameters:\n- mi = 1000,\n- lambda = 1500,\n- mutation probability = 0.1, 0.3, 0.5 or 0.7,");
         System.out.println("- dimension = 8,\n- x ~ U(0,100),\n- sigma ~ U(0,10),");
         System.out.println("* additional parameters for Composition Function 1 and 2 (same as ones in documentation).");
 
         System.out.println("\n\n##### SUM UP SECTION #####");
 
         // List of evolutions
-        ArrayList<Evolution> evolutionsF6 = new ArrayList<>();
+        ArrayList<Evolution> evolutionsF06 = new ArrayList<>();
         ArrayList<Evolution> evolutionsF23 = new ArrayList<>();
         ArrayList<Evolution> evolutionsF27 = new ArrayList<>();
-        ArrayList<Evolution> evolutionsF6DiffMutProb = new ArrayList<>();
-        ArrayList<Evolution> evolutionsF23DiffMutProb = new ArrayList<>();
-        ArrayList<Evolution> evolutionsF27DiffMutProb = new ArrayList<>();
+
+        ArrayList<Evolution> evolutionsF06MP03 = new ArrayList<>();
+        ArrayList<Evolution> evolutionsF23MP03 = new ArrayList<>();
+        ArrayList<Evolution> evolutionsF27MP03 = new ArrayList<>();
+
+        ArrayList<Evolution> evolutionsF06MP05 = new ArrayList<>();
+        ArrayList<Evolution> evolutionsF23MP05 = new ArrayList<>();
+        ArrayList<Evolution> evolutionsF27MP05 = new ArrayList<>();
+
+        ArrayList<Evolution> evolutionsF06MP07 = new ArrayList<>();
+        ArrayList<Evolution> evolutionsF23MP07 = new ArrayList<>();
+        ArrayList<Evolution> evolutionsF27MP07 = new ArrayList<>();
 
 
         double info[];
 
         // Create evolutions
         for (int i = 0; i < 25; ++i) {
-            evolutionsF6.add(new Evolution(1000, 1500, 8, 6, 75, 0.1));
+            evolutionsF06.add(new Evolution(1000, 1500, 8, 6, 75, 0.1));
             evolutionsF23.add(new Evolution(1000, 1500, 8, 23, 75, 0.1));
             evolutionsF27.add(new Evolution(1000, 1500, 8, 27, 75, 0.1));
-            evolutionsF6DiffMutProb.add(new Evolution(1000, 1500, 8, 6, 75, 0.3));
-            evolutionsF23DiffMutProb.add(new Evolution(1000, 1500, 8, 23, 75, 0.3));
-            evolutionsF27DiffMutProb.add(new Evolution(1000, 1500, 8, 27, 75, 0.3));
+
+            evolutionsF06MP03.add(new Evolution(1000, 1500, 8, 6, 75, 0.3));
+            evolutionsF23MP03.add(new Evolution(1000, 1500, 8, 23, 75, 0.3));
+            evolutionsF27MP03.add(new Evolution(1000, 1500, 8, 27, 75, 0.3));
+
+            evolutionsF06MP05.add(new Evolution(1000, 1500, 8, 6, 75, 0.5));
+            evolutionsF23MP05.add(new Evolution(1000, 1500, 8, 23, 75, 0.5));
+            evolutionsF27MP05.add(new Evolution(1000, 1500, 8, 27, 75, 0.5));
+
+            evolutionsF06MP07.add(new Evolution(1000, 1500, 8, 6, 75, 0.7));
+            evolutionsF23MP07.add(new Evolution(1000, 1500, 8, 23, 75, 0.7));
+            evolutionsF27MP07.add(new Evolution(1000, 1500, 8, 27, 75, 0.7));
         }
 
 
         // Perform evolutions for every population (function 6)
-        for (Evolution e : evolutionsF6) {
+        for (Evolution e : evolutionsF06) {
             e.performEvolution();
         }
 
-        info = findSpecificIndividuals(evolutionsF6);
+        info = findSpecificIndividuals(evolutionsF06);
         showInfo(info, "Weierstrass Function (Mutation Probability = 0.1)");
 
         // Perform evolutions for every population (function 6)
-        for (Evolution e : evolutionsF6DiffMutProb) {
+        for (Evolution e : evolutionsF06MP03) {
             e.performEvolution();
         }
 
-        info = findSpecificIndividuals(evolutionsF6DiffMutProb);
+        info = findSpecificIndividuals(evolutionsF06MP03);
         showInfo(info, "Weierstrass Function (Mutation Probability = 0.3)");
 
+        // Perform evolutions for every population (function 6)
+        for (Evolution e : evolutionsF06MP03) {
+            e.performEvolution();
+        }
+
+        info = findSpecificIndividuals(evolutionsF06MP05);
+        showInfo(info, "Weierstrass Function (Mutation Probability = 0.5)");
+
+        // Perform evolutions for every population (function 6)
+        for (Evolution e : evolutionsF06MP07) {
+            e.performEvolution();
+        }
+
+        info = findSpecificIndividuals(evolutionsF06MP07);
+        showInfo(info, "Weierstrass Function (Mutation Probability = 0.7)");
 
         // Perform evolutions for every population (function 23)
         for (Evolution e : evolutionsF23) {
@@ -81,13 +114,28 @@ public class Test {
         showInfo(info, "Composition Function 1 (Mutation Probability = 0.1)");
 
         // Perform evolutions for every population (function 23)
-        for (Evolution e : evolutionsF23DiffMutProb) {
+        for (Evolution e : evolutionsF23MP03) {
             e.performEvolution();
         }
 
-        info = findSpecificIndividuals(evolutionsF23DiffMutProb);
+        info = findSpecificIndividuals(evolutionsF23MP03);
         showInfo(info, "Composition Function 1 (Mutation Probability = 0.3)");
 
+        // Perform evolutions for every population (function 23)
+        for (Evolution e : evolutionsF23MP05) {
+            e.performEvolution();
+        }
+
+        info = findSpecificIndividuals(evolutionsF23MP05);
+        showInfo(info, "Composition Function 1 (Mutation Probability = 0.5)");
+
+        // Perform evolutions for every population (function 23)
+        for (Evolution e : evolutionsF23MP07) {
+            e.performEvolution();
+        }
+
+        info = findSpecificIndividuals(evolutionsF23MP07);
+        showInfo(info, "Composition Function 1 (Mutation Probability = 0.7)");
 
         // Perform evolutions for every population (function 27)
         for (Evolution e : evolutionsF27) {
@@ -98,28 +146,56 @@ public class Test {
         showInfo(info, "Composition Function 2 (Mutation Probability = 0.1)");
 
         // Perform evolutions for every population (function 27)
-        for (Evolution e : evolutionsF27DiffMutProb) {
+        for (Evolution e : evolutionsF27MP03) {
             e.performEvolution();
         }
 
-        info = findSpecificIndividuals(evolutionsF27DiffMutProb);
+        info = findSpecificIndividuals(evolutionsF27MP03);
         showInfo(info, "Composition Function 2 (Mutation Probability = 0.3)");
+
+        // Perform evolutions for every population (function 27)
+        for (Evolution e : evolutionsF27MP05) {
+            e.performEvolution();
+        }
+
+        info = findSpecificIndividuals(evolutionsF27MP05);
+        showInfo(info, "Composition Function 2 (Mutation Probability = 0.5)");
+
+        // Perform evolutions for every population (function 27)
+        for (Evolution e : evolutionsF27MP07) {
+            e.performEvolution();
+        }
+
+        info = findSpecificIndividuals(evolutionsF27MP07);
+        showInfo(info, "Composition Function 2 (Mutation Probability = 0.7)");
 
 
         System.out.println("\n\n##### DETAILED SECTION #####");
         System.out.println("Additional information about one of populations and their three best individuals:\n");
 
         System.out.println("# Weierstrass Function (Mutation Probability = 0.1)\n");
-        evolutionsF6.get(0).showPopulation(false);
+        evolutionsF06.get(0).showPopulation(false);
 
         System.out.println("# Weierstrass Function (Mutation Probability = 0.3)\n");
-        evolutionsF6DiffMutProb.get(0).showPopulation(false);
+        evolutionsF06MP03.get(0).showPopulation(false);
+
+        System.out.println("# Weierstrass Function (Mutation Probability = 0.5)\n");
+        evolutionsF06MP05.get(0).showPopulation(false);
+
+        System.out.println("# Weierstrass Function (Mutation Probability = 0.7)\n");
+        evolutionsF06MP07.get(0).showPopulation(false);
 
         System.out.println("# Composition Function 1 (Mutation Probability = 0.1)\n");
         evolutionsF23.get(0).showPopulation(false);
 
         System.out.println("# Composition Function 1 (Mutation Probability = 0.3)\n");
-        evolutionsF23DiffMutProb.get(0).showPopulation(false);
+        evolutionsF23MP03.get(0).showPopulation(false);
+
+        System.out.println("# Composition Function 1 (Mutation Probability = 0.5)\n");
+        evolutionsF23MP05.get(0).showPopulation(false);
+
+        System.out.println("# Composition Function 1 (Mutation Probability = 0.7)\n");
+        evolutionsF23MP07.get(0).showPopulation(false);
 
         System.out.println("Composition Function 2 (Mutation Probability = 0.1)\n");
         System.out.println("-------------------------");
@@ -127,8 +203,15 @@ public class Test {
 
         System.out.println("Composition Function 2 (Mutation Probability = 0.3)\n");
         System.out.println("-------------------------");
-        evolutionsF27DiffMutProb.get(0).showPopulation(false);
+        evolutionsF27MP03.get(0).showPopulation(false);
 
+        System.out.println("Composition Function 2 (Mutation Probability = 0.5)\n");
+        System.out.println("-------------------------");
+        evolutionsF27MP05.get(0).showPopulation(false);
+
+        System.out.println("Composition Function 2 (Mutation Probability = 0.7)\n");
+        System.out.println("-------------------------");
+        evolutionsF27MP07.get(0).showPopulation(false);
 
         // Print mug of coffee
         System.setOut(originalPrintStream);
