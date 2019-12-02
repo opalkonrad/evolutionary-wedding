@@ -48,10 +48,10 @@ public class Test {
         for (int i = 0; i < 25; ++i) {
             evolutionsF6.add(new Evolution(1000, 1500, 8, 6, 75, 0.1));
             evolutionsF23.add(new Evolution(1000, 1500, 8, 23, 75, 0.1));
-//            evolutionsF27.add(new Evolution(1000, 1500, 8, 27, 75, 0.1));
+            evolutionsF27.add(new Evolution(1000, 1500, 8, 27, 75, 0.1));
             evolutionsF6DiffMutProb.add(new Evolution(1000, 1500, 8, 6, 75, 0.3));
             evolutionsF23DiffMutProb.add(new Evolution(1000, 1500, 8, 23, 75, 0.3));
-//            evolutionsF27DiffMutProb.add(new Evolution(1000, 1500, 8, 27, 75, 0.3));
+            evolutionsF27DiffMutProb.add(new Evolution(1000, 1500, 8, 27, 75, 0.3));
         }
 
 
@@ -89,21 +89,21 @@ public class Test {
         showInfo(info, "Composition Function 1 (Mutation Probability = 0.3)");
 
 
-//        // Perform evolutions for every population (function 27)
-//        for (Evolution e : evolutionsF27) {
-//            e.performEvolution();
-//        }
-//
-//        info = findSpecificIndividuals(evolutionsF27);
-//        showInfo(info, "Composition Function 2 (Mutation Probability = 0.1)");
-//
-//        // Perform evolutions for every population (function 27)
-//        for (Evolution e : evolutionsF27DiffMutProb) {
-//            e.performEvolution();
-//        }
-//
-//        info = findSpecificIndividuals(evolutionsF27DiffMutProb);
-//        showInfo(info, "Composition Function 2 (Mutation Probability = 0.3)");
+        // Perform evolutions for every population (function 27)
+        for (Evolution e : evolutionsF27) {
+            e.performEvolution();
+        }
+
+        info = findSpecificIndividuals(evolutionsF27);
+        showInfo(info, "Composition Function 2 (Mutation Probability = 0.1)");
+
+        // Perform evolutions for every population (function 27)
+        for (Evolution e : evolutionsF27DiffMutProb) {
+            e.performEvolution();
+        }
+
+        info = findSpecificIndividuals(evolutionsF27DiffMutProb);
+        showInfo(info, "Composition Function 2 (Mutation Probability = 0.3)");
 
 
         System.out.println("\n\n##### DETAILED SECTION #####");
@@ -121,13 +121,13 @@ public class Test {
         System.out.println("# Composition Function 1 (Mutation Probability = 0.3)\n");
         evolutionsF23DiffMutProb.get(0).showPopulation(false);
 
-//        System.out.println("Composition Function 2 (Mutation Probability = 0.1)\n");
-//        System.out.println("-------------------------");
-//        evolutionsF27.get(0).showPopulation(false);
-//
-//        System.out.println("Composition Function 2 (Mutation Probability = 0.3)\n");
-//        System.out.println("-------------------------");
-//        evolutionsF27DiffMutProb.get(0).showPopulation(false);
+        System.out.println("Composition Function 2 (Mutation Probability = 0.1)\n");
+        System.out.println("-------------------------");
+        evolutionsF27.get(0).showPopulation(false);
+
+        System.out.println("Composition Function 2 (Mutation Probability = 0.3)\n");
+        System.out.println("-------------------------");
+        evolutionsF27DiffMutProb.get(0).showPopulation(false);
 
 
         // Print mug of coffee

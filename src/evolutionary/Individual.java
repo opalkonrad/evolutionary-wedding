@@ -118,11 +118,7 @@ public class Individual implements Cloneable {
      * Updates objective function value.
      */
     public void updateObjFuncVal() {
-        try {
-            setObjFuncVal(countObjFuncVal(funcNum));
-        } catch (Exception e) {
-            System.out.println("Not implemented function");
-        }
+        setObjFuncVal(countObjFuncVal(funcNum));
     }
 
     /**
@@ -130,9 +126,8 @@ public class Individual implements Cloneable {
      *
      * @param funcNum number of CEC 2014 (without rotations and shifting) function
      * @return Objective function value for this individual and given as parameter function number.
-     * @throws Exception when function with this number is not implemented
      */
-    public double countObjFuncVal(int funcNum) throws Exception {
+    public double countObjFuncVal(int funcNum) {
         switch (funcNum) {
             // High Conditioned Elliptic Function
             case 1:
@@ -276,7 +271,7 @@ public class Individual implements Cloneable {
                 return compFunc;
 
             default:
-                throw new Exception("This function is not implemented");
+                return 10E9;
         }
     }
 

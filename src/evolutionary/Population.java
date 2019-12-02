@@ -90,11 +90,17 @@ public class Population implements Cloneable {
     }
 
     public double getBestIndividual() {
-        return population.get(0).getObjFuncVal();
+        if(population.size() > 0) {
+            return population.get(0).getObjFuncVal();
+        }
+        return 10E9;
     }
 
     public double getWorstIndividual() {
-        return population.get(population.size() - 1).getObjFuncVal();
+        if(population.size() > 0) {
+            return population.get(population.size() - 1).getObjFuncVal();
+        }
+        return 10E9;
     }
 
 
@@ -315,14 +321,10 @@ public class Population implements Cloneable {
         allPopulation.addToPopulation(childrenPopulation.getPopulation());
 
         // Sort population by objective function value descending
-        allPopulation.population.sort(new Comparator<Individual>() {
+        allPopulation.getPopulation().sort(new Comparator<Individual>() {
             @Override
             public int compare(Individual o1, Individual o2) {
-                if (o2.getObjFuncVal() > o1.getObjFuncVal()) {
-                    return -1;
-                } else if (o2.getObjFuncVal() == o1.getObjFuncVal()) {
-                    return 0;
-                } else return 1;
+                return Double.compare(o1.getObjFuncVal(), o2.getObjFuncVal());
             }
         });
 
